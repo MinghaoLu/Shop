@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CNToolBar">
+
+        <attr name="rightButton" format="boolean"/>
+        <attr name="isShowSearchView" format="boolean"/>
+        <attr name="label" format="string|reference"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="CustomView1">
+        <attr name="length" format="integer"></attr>
+    </declare-styleable>
+
+</resources>

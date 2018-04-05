@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <priv.lmh.widget.CNToolBar
+            android:id="@+id/toolbar_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/icon_back_32px"
+            app:isShowSearchView="false"
+            app:label="@string/title_login"></priv.lmh.widget.CNToolBar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/txt_phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_view_block"
+            android:drawablePadding="20dp"
+            android:drawableLeft="@drawable/icon_telphone_32"
+            android:hint="请输入"
+            android:textColorHint="#8222"
+            android:textColor="#222"
+            android:inputType="phone"
+            style="@style/Base.Widget.AppCompat.EditText"/>
+
+        <View
+            style="@style/line_vertical"
+            android:layout_margin="8dp"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/txt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/selector_view_block"
+            android:drawablePadding="20dp"
+            android:drawableLeft="@drawable/icon_lock"
+            android:hint="请输入"
+            android:textColorHint="#8222"
+            android:textColor="#222"
+            android:inputType="phone"
+            style="@style/Base.Widget.AppCompat.EditText"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_button_pressed"
+        android:text="@string/btn_login"/>
+
+    <TextView
+        android:id="@+id/txt_to_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/material_blue"
+        android:text="@string/to_register"
+        />
+
+
+</LinearLayout>

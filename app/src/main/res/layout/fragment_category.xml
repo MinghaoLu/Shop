@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview_category"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_gravity="left"
+        android:paddingLeft="5dp"
+        android:paddingRight="4dp"
+        ></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/slider_category"
+            android:layout_width="match_parent"
+            android:layout_height="110dp">
+
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/indicator_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                app:selected_color="@color/colorPrimary"
+                app:selected_height="3dp"
+                app:selected_padding_left="2dp"
+                app:selected_padding_right="2dp"
+                app:selected_width="16dp"
+                app:shape="rect"
+                app:unselected_color="#55333333"
+                app:unselected_height="3dp"
+                app:unselected_padding_left="2dp"
+                app:unselected_padding_right="2dp"
+                app:unselected_width="16dp"
+                >
+
+            </com.daimajia.slider.library.Indicators.PagerIndicator>
+        </com.daimajia.slider.library.SliderLayout>
+
+        <com.cjj.MaterialRefreshLayout
+            android:id="@+id/refreshlayout_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleview_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+        </com.cjj.MaterialRefreshLayout>
+    </LinearLayout>
+</LinearLayout>

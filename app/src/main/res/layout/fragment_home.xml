@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <priv.lmh.widget.CNToolBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:isShowSearchView="true"
+        style="@style/search_view">
+
+    </priv.lmh.widget.CNToolBar>
+    
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+        <com.daimajia.slider.library.Indicators.PagerIndicator
+            android:id="@+id/indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            app:selected_color="@color/colorPrimary"
+            app:selected_height="3dp"
+            app:selected_padding_left="2dp"
+            app:selected_padding_right="2dp"
+            app:selected_width="16dp"
+            app:shape="rect"
+            app:unselected_color="#55333333"
+            app:unselected_height="3dp"
+            app:unselected_padding_left="2dp"
+            app:unselected_padding_right="2dp"
+            app:unselected_width="16dp"
+            >
+
+        </com.daimajia.slider.library.Indicators.PagerIndicator>
+    </com.daimajia.slider.library.SliderLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>

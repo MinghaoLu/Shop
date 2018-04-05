@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_toolbar"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/txt_phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="text"
+            android:drawableLeft="@drawable/icon_telphone_32"
+            android:hint="请输入帐号"
+            android:textColorHint="#8222"
+            android:textColor="#222"
+            android:background="@drawable/selector_view_block"/>
+
+        <View
+            style="@style/line_vertical"
+            android:layout_margin="8dp"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/txt_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="textPassword"
+            android:drawableLeft="@drawable/icon_lock"
+            android:hint="请输入密码"
+            android:textColorHint="#8222"
+            android:textColor="#222"
+            android:background="@drawable/selector_view_block"/>
+
+        <View
+            style="@style/line_vertical"
+            android:layout_margin="8dp"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/txt_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="text"
+            android:hint="请输入昵称"
+            android:textColorHint="#8222"
+            android:textColor="#222"
+            android:background="@drawable/selector_view_block"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/register"
+        android:background="@drawable/selector_button_pressed"/>
+</LinearLayout>
