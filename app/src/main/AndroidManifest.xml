@@ -49,6 +49,12 @@
             android:name=".RegisterActivity"
             android:label="@string/register">
         </activity>
+
+        <activity
+            android:name=".MyOrderActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="@string/myorders">
+        </activity>
     </application>
 
 </manifest>

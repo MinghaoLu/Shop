@@ -13,18 +13,29 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import priv.lmh.bean.ShoppingCart;
 import priv.lmh.shop.LoginActivity;
+import priv.lmh.shop.MyOrderActivity;
 import priv.lmh.shop.R;
 import priv.lmh.shop.ShopApplication;
+import priv.lmh.util.JSONUtil;
+import priv.lmh.util.ShoppingUtil;
 
 /**
  * Created by HY on 2017/8/31.
  */
 
 public class MineFragment extends Fragment implements View.OnClickListener{
+    private static final String TAG = "MineFragment";
+
     private Button mBtnLog;
     private CircleImageView mImgHead;
     private TextView mTxtUserName;
@@ -33,11 +44,15 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private TextView mTxtOrders;
     private Button mBtnExit;
 
+    private ShoppingUtil mShopUtil;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine,container,false);
 
         initView(view);
+
+        mShopUtil = new ShoppingUtil(getContext(), ShopApplication.phoneNumber);
 
         setListener();
 
@@ -47,7 +62,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView(View view) {
-        mBtnLog = (Button) view.findViewById(R.id.btn_login);
+        mBtnLog =  view.findViewById(R.id.btn_login);
         mImgHead = view.findViewById(R.id.img_head);
         mTxtUserName = view.findViewById(R.id.txt_username);
 
@@ -71,7 +86,17 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
             startActivityForResult(intent,0);
         }else if(v == mTxtOrders){
+            //获取我的订单
+            List<ShoppingCart> result = mShopUtil.getOrder();
+            if(result != null && result.size() != 0){
+                Log.d(TAG, "onClick: "+ JSONUtil.toJSON(result));
+            }
 
+            Intent intent = new Intent(getActivity(), MyOrderActivity.class);
+            startActivity(intent);
+            //List<ShoppingCart> carts = JSONUtil.fromJson(result,new TypeToken<List<ShoppingCart>>() {}.getType());
+            /*if(carts!=null)
+                Log.d(TAG, "onClick: size"+carts.size());*/
         }else if(v == mBtnExit){
             //登录信息置空
             ShopApplication.isLogined = false;
@@ -107,5 +132,20 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             }
             mAlreadyLog.setVisibility(View.VISIBLE);
         }
+    }
+
+    private static String delNull(String str){
+        String newStr = str;
+        if(str.startsWith("null")){
+            newStr = str.substring(4);
+        }
+        return newStr;
+    }
+
+    @Override
+    public void onDestroy() {
+        mShopUtil.close();
+        mShopUtil = null;
+        super.onDestroy();
     }
 }

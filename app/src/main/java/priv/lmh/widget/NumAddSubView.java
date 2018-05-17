@@ -67,9 +67,9 @@ public class NumAddSubView extends LinearLayout implements View.OnClickListener{
         View view = mInflater.inflate(R.layout.widget_number_add_sup,this,true);
 
         //具体控件
-        mBtnAdd = (Button) view.findViewById(R.id.btn_add);
-        mTextNum = (TextView) view.findViewById(R.id.txt_num);
-        mBtnSub = (Button) view.findViewById(R.id.btn_sub);
+        mBtnAdd =  view.findViewById(R.id.btn_add);
+        mTextNum = view.findViewById(R.id.txt_num);
+        mBtnSub =  view.findViewById(R.id.btn_sub);
 
         mBtnAdd.setOnClickListener(this);
         mBtnSub.setOnClickListener(this);

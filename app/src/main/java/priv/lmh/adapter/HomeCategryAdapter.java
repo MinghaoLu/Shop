@@ -78,10 +78,10 @@ public class HomeCategryAdapter extends RecyclerView.Adapter<HomeCategryAdapter.
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            textTitle = (TextView) itemView.findViewById(R.id.text_title);
-            imageViewBig = (ImageView) itemView.findViewById(R.id.imgview_big);
-            imageViewSmallTop = (ImageView) itemView.findViewById(R.id.imgview_small_top);
-            imageViewSmallBottom = (ImageView) itemView.findViewById(R.id.imgview_small_bottom);
+            textTitle =  itemView.findViewById(R.id.text_title);
+            imageViewBig =  itemView.findViewById(R.id.imgview_big);
+            imageViewSmallTop =  itemView.findViewById(R.id.imgview_small_top);
+            imageViewSmallBottom =  itemView.findViewById(R.id.imgview_small_bottom);
         }
     }
 }

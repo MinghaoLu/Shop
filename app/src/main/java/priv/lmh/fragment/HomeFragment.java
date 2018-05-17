@@ -18,13 +18,14 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+/*import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;*/
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Response;
 import priv.lmh.adapter.HomeCategryAdapter;
 import priv.lmh.bean.Banner;
 import priv.lmh.bean.HomeCampaign;
@@ -75,7 +76,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onError(Response response, int code, Exception e) {
+            public void onError(Response response, int code) {
                 System.out.print("ERROR");
                 Log.i("3","ERROR");
             }
@@ -83,8 +84,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initSlider(){
-        mSlider = (SliderLayout) mView.findViewById(R.id.slider);
-        mIndicator = (PagerIndicator) mView.findViewById(R.id.indicator);
+        mSlider =  mView.findViewById(R.id.slider);
+        mIndicator =  mView.findViewById(R.id.indicator);
 
         /*List<String> imageUrls = new ArrayList<>();
         final List<String> description = new ArrayList<>();
@@ -139,7 +140,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initRecycleView() {
-        mRecycleView = (RecyclerView) mView.findViewById(R.id.recycleview);
+        mRecycleView =  mView.findViewById(R.id.recycleview);
 
         /*List<HomeCategory> data = new ArrayList<>();
 
@@ -161,7 +162,7 @@ public class HomeFragment extends Fragment {
         mAdapter = new HomeCategryAdapter(data);*/
         mOkHttpHelper.get(URL_CAMPAIGN_HOME, new BaseCallBack<List<HomeCampaign>>() {
             @Override
-            public void onFailure(Request requst, IOException e) {
+            public void onFailure(IOException e) {
                 Log.d("1","Failed");
             }
 
@@ -172,7 +173,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onError(Response response, int code, Exception e) {
+            public void onError(Response response, int code) {
                 Log.d("3","ERROR");
             }
         });

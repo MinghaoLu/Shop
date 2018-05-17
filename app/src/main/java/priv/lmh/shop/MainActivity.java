@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,8 @@ import priv.lmh.fragment.MineFragment;
 public class MainActivity extends AppCompatActivity {
     private List<TabItem> tabItemList;
 
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         initTabData();
         initTabHost();
-
+        toast = Toast.makeText(this, "再按一次退出", Toast.LENGTH_LONG);
     }
-
 
     private void initTabData(){
         tabItemList = new ArrayList<>();
@@ -53,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
             TabHost.TabSpec tabSpec = fragmentTabHost.newTabSpec(getString(tabItem.getTitle()));
             tabSpec.setIndicator(buildIndicator(tabItem));
             fragmentTabHost.addTab(tabSpec,tabItem.getCls(),null);
-
-
         }
 
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //不同Tab有不同的图标和名字
+    //不同Tab有不同的图标和名字（可以重构到TabItem类中）
     private View buildIndicator(TabItem tabItem){
         View view = getLayoutInflater().inflate(R.layout.view_tab_indicator,null);
         ImageView imageView = view.findViewById(R.id.icon_tab);
@@ -75,5 +75,24 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(getString(tabItem.getTitle()));
 
         return view;
+    }
+
+    @Override
+    public void onBackPressed() {
+        showToast();
+
+        onExit();
+    }
+
+    private void showToast() {
+        if(toast.getView().getParent() == null){
+            toast.show();
+        }
+    }
+
+    private void onExit() {
+        if(toast.getView().getParent() != null){
+            this.finish();
+        }
     }
 }

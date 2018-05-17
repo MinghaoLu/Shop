@@ -1,6 +1,12 @@
 package priv.lmh.bean;
 
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import priv.lmh.shop.R;
 
 /**
  * Created by HY on 2017/8/30.
@@ -40,4 +46,5 @@ public class TabItem {
     public void setCls(Class<? extends Fragment> cls) {
         this.cls = cls;
     }
+
 }

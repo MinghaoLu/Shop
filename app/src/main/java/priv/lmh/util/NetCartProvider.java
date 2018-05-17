@@ -57,7 +57,8 @@ public class NetCartProvider extends Provider {
     protected void commit() {
         String json;
         List<ShoppingCart> carts = sparseToList();
-        if(carts == null | carts.size()==0){
+        assert carts != null;
+        if(carts == null || carts.size()==0){
             json = "";
         }else {
             json = JSONUtil.toJSON(carts);

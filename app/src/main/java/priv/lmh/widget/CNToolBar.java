@@ -78,8 +78,8 @@ public class CNToolBar extends Toolbar {
     private void initView() {
         if(mView == null){
             mView = mLayoutInflater.inflate(R.layout.toolbar,null);
-            mSearchView = (EditText) mView.findViewById(R.id.toolbar_searchview);
-            mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
+            mSearchView =  mView.findViewById(R.id.toolbar_searchview);
+            mTextTitle =  mView.findViewById(R.id.toolbar_title);
             //mBtnEdit = (Button) mView.findViewById(R.id.btn_edit);
             //mBtnCancel = (Button) mView.findViewById(R.id.btn_cancel);
 
@@ -144,4 +144,5 @@ public class CNToolBar extends Toolbar {
             mImageButton.setVisibility(GONE);
         }
     }*/
+
 }

@@ -24,10 +24,11 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.okhttp.Response;
+/*import com.squareup.okhttp.Response;*/
 
 import java.util.List;
 
+import okhttp3.Response;
 import priv.lmh.adapter.BaseAdapter;
 import priv.lmh.adapter.BaseViewHolder;
 import priv.lmh.adapter.CategoryAdapter;
@@ -82,13 +83,13 @@ public class CategoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_category,container,false);
         mOkHttpHelper = OkHttpHelper.getInstance();
 
-        mCategoryRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview_category);
+        mCategoryRecyclerView =  view.findViewById(R.id.recycleview_category);
 
-        mSliderLayout = (SliderLayout) view.findViewById(R.id.slider_category);
-        mIndicator = (PagerIndicator) view.findViewById(R.id.indicator_category);
+        mSliderLayout =  view.findViewById(R.id.slider_category);
+        mIndicator =  view.findViewById(R.id.indicator_category);
 
-        mMaterialRefreshLayout = (MaterialRefreshLayout) view.findViewById(R.id.refreshlayout_category);
-        mGoodsRecyclerView = (RecyclerView) view.findViewById(R.id.recycleview_goods);
+        mMaterialRefreshLayout = view.findViewById(R.id.refreshlayout_category);
+        mGoodsRecyclerView =  view.findViewById(R.id.recycleview_goods);
 
         requestCategoryData();
 
@@ -111,7 +112,7 @@ public class CategoryFragment extends Fragment {
             }
 
             @Override
-            public void onError(Response response, int code, Exception e) {
+            public void onError(Response response, int code) {
                 Log.d("error",code+"");
             }
         });
@@ -127,7 +128,7 @@ public class CategoryFragment extends Fragment {
             }
 
             @Override
-            public void onError(Response response, int code, Exception e) {
+            public void onError(Response response, int code) {
 
             }
         });
@@ -139,14 +140,14 @@ public class CategoryFragment extends Fragment {
             @Override
             public void onSuccess(Response response, Page<HotWare> hotWarePage) {
                 List<HotWare> wares = hotWarePage.getList();
-                if(wares != null & wares.size() != 0){
+                if(wares != null && wares.size() != 0){
                     showGoods(wares);
                 }
 
             }
 
             @Override
-            public void onError(Response response, int code, Exception e) {
+            public void onError(Response response, int code) {
 
             }
         });
@@ -184,7 +185,7 @@ public class CategoryFragment extends Fragment {
         mCategoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mCategoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCategoryRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-
+        mCategoryRecyclerView.scrollToPosition(0);
     }
 
     //显示滑动图

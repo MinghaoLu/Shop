@@ -61,10 +61,10 @@ public class HWAdapter extends BaseAdapter<HotWare> {
                     if(mProvider == null){
                         mProvider = new CartProvider(mContext,ShopApplication.phoneNumber);
                     }
-                    ShoppingCart cart = convertData(hotWare);
+
                     mProvider.put(convertData(hotWare));
                     Toast.makeText(mContext, "商品已加入购物车", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG,cart.getName());
+                    Log.d(TAG,convertData(hotWare).getName());
                 }
 
             }

@@ -57,7 +57,7 @@
             android:hint="请输入"
             android:textColorHint="#8222"
             android:textColor="#222"
-            android:inputType="phone"
+            android:inputType="textPassword"
             style="@style/Base.Widget.AppCompat.EditText"/>
 
     </LinearLayout>

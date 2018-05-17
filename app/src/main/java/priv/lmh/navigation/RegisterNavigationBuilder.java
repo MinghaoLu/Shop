@@ -3,8 +3,6 @@ package priv.lmh.navigation;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import priv.lmh.shop.R;
 
@@ -20,13 +18,13 @@ public class RegisterNavigationBuilder extends NavigationAdapter {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.toolbar_register_layout;
+        return R.layout.toolbar_layout;
     }
 
     @Override
     public View createAndBind(ViewGroup parent) {
         View view = super.createAndBind(parent);
-        setImageViewStyle(view,R.id.img_back,R.drawable.icon_back_32px,leftIconListener);
+        setImageViewStyle(view,R.id.img_back,leftIconRes,leftIconListener);
         setTextViewStyle(view,R.id.txt_register,R.string.register,null);
         return view;
     }

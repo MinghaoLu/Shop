@@ -2,6 +2,7 @@ package priv.lmh.util;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.reflect.TypeToken;
@@ -18,6 +19,8 @@ import priv.lmh.bean.ShoppingCart;
  */
 
 public abstract class Provider{
+    private static final String TAG = "Provider";
+
     protected SparseArray<ShoppingCart> mData;
 
     protected Context mContext;
@@ -64,11 +67,14 @@ public abstract class Provider{
         mData.put((int)cart.getId(),temp);
 
         commit();
+
+        Log.d(TAG, "put: " + cart.getId());
     };
 
     public void delete(ShoppingCart cart){
         mData.delete((int)cart.getId());
         commit();
+        Log.d(TAG, "delete:ID "+cart.getId());
     };
 
     public void update(ShoppingCart cart,int count){

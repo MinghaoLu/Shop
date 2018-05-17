@@ -25,4 +25,5 @@ public class ShopApplication extends Application {
         Fresco.initialize(this);
         Bmob.initialize(this,"3e17e73437fa1b07f9a19da9566994d4");
     }
+
 }

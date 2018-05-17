@@ -15,7 +15,7 @@
         android:drawableLeft="@mipmap/icon_search"
         style="@style/search_view"
         android:hint="请输入搜索内容"
-
+        android:focusable="false"
         android:visibility="gone"
         />
 

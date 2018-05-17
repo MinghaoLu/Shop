@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,12 +21,13 @@ import android.widget.TextView;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.okhttp.Response;
+/*import com.squareup.okhttp.Response;*/
 
 
 import java.io.Serializable;
 import java.util.List;
 
+import okhttp3.Response;
 import priv.lmh.adapter.BaseAdapter;
 import priv.lmh.adapter.BaseViewHolder;
 import priv.lmh.adapter.HWAdapter;
@@ -141,8 +143,8 @@ public class HotFragment extends Fragment {
             }
 
             @Override
-            public void onError(Response response, int code, Exception e) {
-                Log.d("eror","onError" + code);
+            public void onError(Response response, int code) {
+                Log.d("error","onError" + code);
             }
         });
     }
@@ -194,6 +196,7 @@ public class HotFragment extends Fragment {
                 mRecyclerView.setAdapter(mAdapter);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
                 break;
 
             case STATE_REFRESH:

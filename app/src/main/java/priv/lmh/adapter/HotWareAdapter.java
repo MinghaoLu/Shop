@@ -50,7 +50,7 @@ public class HotWareAdapter extends  RecyclerView.Adapter<HotWareAdapter.MyViewH
 
     @Override
     public int getItemCount() {
-        if(mData != null & mData.size()>0){
+        if(mData != null && mData.size()>0){
             return mData.size();
         }
         return 0;
@@ -76,7 +76,7 @@ public class HotWareAdapter extends  RecyclerView.Adapter<HotWareAdapter.MyViewH
     }
 
     public void addData(int position,List<HotWare> data){
-        if(data != null & data.size()>0){
+        if(data != null && data.size()>0){
             mData.addAll(data);
             notifyItemRangeChanged(position,mData.size());
         }
@@ -91,10 +91,10 @@ public class HotWareAdapter extends  RecyclerView.Adapter<HotWareAdapter.MyViewH
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            simpleDraweeView = (SimpleDraweeView) mView.findViewById(R.id.img_hot);
-            text_name = (TextView) mView.findViewById(R.id.tv_name);
-            text_price = (TextView) mView.findViewById(R.id.tv_price);
-            btn_buy = (Button) mView.findViewById(R.id.btn_buy);
+            simpleDraweeView = mView.findViewById(R.id.img_hot);
+            text_name =  mView.findViewById(R.id.tv_name);
+            text_price = mView.findViewById(R.id.tv_price);
+            btn_buy = mView.findViewById(R.id.btn_buy);
         }
     }
 }

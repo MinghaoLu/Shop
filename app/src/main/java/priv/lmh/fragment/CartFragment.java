@@ -3,11 +3,8 @@ package priv.lmh.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,23 +20,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.reflect.TypeToken;
+import com.facebook.common.logging.LoggingDelegate;
 
-import java.lang.reflect.Method;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import priv.lmh.adapter.BaseAdapter;
 import priv.lmh.adapter.CartAdapter;
+import priv.lmh.bean.HotWare;
 import priv.lmh.bean.ShoppingCart;
 import priv.lmh.shop.LoginActivity;
 import priv.lmh.shop.R;
 import priv.lmh.shop.ShopApplication;
+import priv.lmh.shop.WareDetailActivity;
 import priv.lmh.util.CartProvider;
-import priv.lmh.util.JSONUtil;
-import priv.lmh.util.NetCartProvider;
 import priv.lmh.util.Provider;
+import priv.lmh.util.ShoppingUtil;
 import priv.lmh.widget.CNToolBar;
 
 /**
@@ -47,6 +42,8 @@ import priv.lmh.widget.CNToolBar;
  */
 
 public class CartFragment extends Fragment implements View.OnClickListener{
+    private static final String TAG = "CartFragment";
+
     private View mView;
     private CheckBox mCheckBox;
     private TextView mTextTotal;
@@ -69,6 +66,7 @@ public class CartFragment extends Fragment implements View.OnClickListener{
     private BaseAdapter mAdapter;
 
     private Provider mProvider;
+    private ShoppingUtil mShopUtil;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,22 +92,26 @@ public class CartFragment extends Fragment implements View.OnClickListener{
         mBtnEdit = cnToolBar.findViewById(R.id.btn_edit);
         mBtnFinish = cnToolBar.findViewById(R.id.btn_finish);
 
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recycleview_cart);
-        mCheckBox = (CheckBox) mView.findViewById(R.id.checkbox_all);
-        mTextTotal = (TextView) mView.findViewById(R.id.text_total);
-        mBtnOrder = (Button) mView.findViewById(R.id.btn_order);
-        mBtnDel = (Button) mView.findViewById(R.id.btn_del);
+        mRecyclerView =  mView.findViewById(R.id.recycleview_cart);
+        mCheckBox =  mView.findViewById(R.id.checkbox_all);
+        mTextTotal =  mView.findViewById(R.id.text_total);
+        mBtnOrder =  mView.findViewById(R.id.btn_order);
+        mBtnDel =  mView.findViewById(R.id.btn_del);
 
         mNeedLogin = mView.findViewById(R.id.need_login);
         mBtnLogin = mView.findViewById(R.id.btn_login);
 
         mPriceManifest = mView.findViewById(R.id.price_manifest);
+
     }
 
     private void setListener(){
         mBtnEdit.setOnClickListener(this);
         mBtnFinish.setOnClickListener(this);
         mBtnLogin.setOnClickListener(this);
+
+        mBtnOrder.setOnClickListener(this);
+        mBtnDel.setOnClickListener(this);
     }
 
     private void loadCart(){
@@ -119,6 +121,7 @@ public class CartFragment extends Fragment implements View.OnClickListener{
             mPriceManifest.setVisibility(View.VISIBLE);
 
             initRec();
+            mShopUtil = new ShoppingUtil(getActivity(),ShopApplication.phoneNumber,mProvider);
 
             setTotalPrice();
         }else{
@@ -128,12 +131,29 @@ public class CartFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    //初始化R
     private void initRec() {
         mProvider = new CartProvider(getActivity(),ShopApplication.phoneNumber);
         //mProvider.setStringData();
-        List<ShoppingCart> carts = mProvider.getAll();
+        final List<ShoppingCart> carts = mProvider.getAll();
         //carts = JSONUtil.fromJson(,new TypeToken<List<ShoppingCart>>(){}.getType());
         mAdapter = new CartAdapter(getActivity(), carts,R.layout.template_cart,mCheckBox,mTextTotal,mProvider);
+        mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+
+                if(mAdapter.state == BaseAdapter.FINISHED){
+                    HotWare ware = carts.get(position);
+                    Intent intent = new Intent(getActivity(), WareDetailActivity.class);
+                    intent.putExtra("WARE",ware);
+                    startActivity(intent);
+                }else {
+                    ShoppingCart cart = carts.get(position);
+                    cart.setChecked(!cart.isChecked());
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        });
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -163,26 +183,86 @@ public class CartFragment extends Fragment implements View.OnClickListener{
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         }else if(v == mBtnEdit && mAdapter != null){
+            List<ShoppingCart> carts = mAdapter.getDatas();
+            if(carts == null || carts.size() ==0){
+                Toast.makeText(getActivity(),"没有可处理的商品", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             mAdapter.setState(BaseAdapter.EDITTING);
             mCheckBox.setChecked(false);
-            mBtnEdit.setVisibility(View.GONE);
-            mBtnFinish.setVisibility(View.VISIBLE);
 
-            mBtnOrder.setVisibility(View.INVISIBLE);
-            mBtnDel.setVisibility(View.VISIBLE);
+            hideEditShowFinButton();
+            hideOrderShowDelButton();
         }else if(v == mBtnFinish && mAdapter != null){
             mAdapter.setState(BaseAdapter.FINISHED);
             mCheckBox.setChecked(true);
-            mBtnEdit.setVisibility(View.VISIBLE);
-            mBtnFinish.setVisibility(View.GONE);
 
-            mBtnOrder.setVisibility(View.VISIBLE);
-            mBtnDel.setVisibility(View.INVISIBLE);
+            hideFinShowEditButton();
+            hideDelShowOrderButton();
+
+            mAdapter.showTotalPrice();
+        }else if(v == mBtnOrder){
+            Log.d(TAG, "onClick: "+mAdapter.getItemCount());
+
+            Log.d(TAG, "onClick: mBtnOrder");
+            if(mShopUtil != null){
+                mShopUtil.order(mAdapter.getDatas());
+
+            }
+            mAdapter.notifyDataSetChanged();
+            mAdapter.showTotalPrice();
+            Toast.makeText(getActivity(),"下单成功",Toast.LENGTH_SHORT).show();
+
+            //算钱
+;
+            if(mAdapter.getItemCount() != 0 && checkState(mAdapter.getDatas())!=0){
+                mBtnOrder.performClick();
+            }
+        }else if(v == mBtnDel){
+            List<ShoppingCart> carts = mAdapter.getDatas();
+            if(carts == null || carts.size() ==0){
+                Toast.makeText(getActivity(),"已经没有可删除的商品了", Toast.LENGTH_SHORT).show();
+                mBtnFinish.performClick();
+                //mBtnFinish.callOnClick();
+                return;
+            }
+
+            Log.d(TAG, "onClick: "+carts.size());
+            for(int i = 0;i<mAdapter.getItemCount();i++){
+                if(carts.get(i).isChecked()){
+                    mProvider.delete(carts.get(i));
+                    carts.remove(i);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            if (carts.size() == 0){
+                mBtnFinish.performClick();
+                return;
+            }
+
+            if(mAdapter.getItemCount() != 0 && checkState(mAdapter.getDatas())!=0){
+                mBtnDel.performClick();
+            }
+
+
         }
     }
 
     private void edit(){
 
+    }
+
+    private int checkState(List<ShoppingCart> carts){
+        int i = 0;
+        for(int j = 0;j <carts.size();j++){
+            ShoppingCart cart = carts.get(j);
+            if(cart.isChecked()){
+                i++;
+            }
+        }
+        return i;
     }
 
     @Override
@@ -208,5 +288,43 @@ public class CartFragment extends Fragment implements View.OnClickListener{
     public void onDetach() {
         super.onDetach();
         Log.d("TAG","onDetach");
+    }
+
+    @Override
+    public void onDestroy() {
+        if(mBtnFinish.getVisibility() == View.VISIBLE){
+            mBtnFinish.performClick();
+            mBtnFinish.setVisibility(View.INVISIBLE);
+        }
+
+        /*shut down resource*/
+        if(mShopUtil != null){
+            mShopUtil.close();
+        }
+
+        mAdapter=null;
+        mShopUtil = null;
+        mProvider = null;
+        super.onDestroy();
+    }
+
+    private void hideDelShowOrderButton(){
+        mBtnDel.setVisibility(View.INVISIBLE);
+        mBtnOrder.setVisibility(View.VISIBLE);
+    }
+
+    private void hideOrderShowDelButton(){
+        mBtnDel.setVisibility(View.VISIBLE);
+        mBtnOrder.setVisibility(View.INVISIBLE);
+    }
+
+    private void hideEditShowFinButton(){
+        mBtnEdit.setVisibility(View.INVISIBLE);
+        mBtnFinish.setVisibility(View.VISIBLE);
+    }
+
+    private void hideFinShowEditButton(){
+        mBtnFinish.setVisibility(View.INVISIBLE);
+        mBtnEdit.setVisibility(View.VISIBLE);
     }
 }
